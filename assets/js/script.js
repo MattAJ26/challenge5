@@ -15,17 +15,24 @@ function createTaskCard(task) {
         .append('<p>' + task.description + '</p>')
         .append('<p>Due: ' + task.dueDate + '</p>')
         .append('<button class="deleteTask btn btn-danger btn-sm">Delete</button>')
-        .draggable({ revert: "invalid" });
+        .draggable();
 }
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-    $('#card-body').empty();
+    $('#todo-cards, #in-progress-cards, #done-cards').empty();
+
+    if (!taskList) {
+        console.error("taskList is null or undefined.");
+        return;
+    }
+
     for (var i = 0; i < taskList.length; i++) {
         var task = taskList[i];
         var taskCard = createTaskCard(task);
         $('#' + task.status + '-cards').append(taskCard);
     }
+
     localStorage.setItem("tasks", JSON.stringify(taskList));
     localStorage.setItem("nextId", JSON.stringify(nextId));
 }
@@ -40,7 +47,7 @@ function handleAddTask(event){
     const taskDescription = taskDescriptionInput.val();
     const dueDate = dueDateInput.val();
     if (taskName) {
-        const newTask = {
+        const newTask = {   
             id: generateTaskId(),    
             name: taskName,
             description: taskDescription,
@@ -59,26 +66,10 @@ function handleAddTask(event){
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){
-    var card = $(event.target).closest('.card');
-    var taskId = card.attr('data-id');
-    taskList = taskList.filter(function(task) {
-        return task.id != taskId;
-    });
-    renderTaskList();
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
-    var card = ui.helper;
-    var taskId = card.attr('data-id');
-    var newStatus = $(this).closest('.lane').attr('id');
-
-    taskList.forEach(function(task) {
-        if (task.id == taskId) {
-            task.status = newStatus.replace('-', ' ');
-        }
-    });
-    renderTaskList();
 }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
