@@ -9,5 +9,7 @@ Tasks are saved to local storage
 ## Usage
 ![image](https://github.com/user-attachments/assets/d7feb1ad-aca8-4bc3-9728-2f49b7fd512f)
 
+Deployed site: https://mattaj26.github.io/taskboard/
+
 ## Credits
 GitHub Repo: https://github.com/MattAJ26/challenge5.git
